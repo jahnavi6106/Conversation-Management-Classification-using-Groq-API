@@ -1,0 +1,130 @@
+--- Task 1 Demo: Conversation history + summarization ---
+
+Full conversation (raw):
+user: Hi, I need help planning a healthy meal plan.
+assistant: Sure! What is your age, weight, and any dietary restrictions?
+user: I am 28, 70kg, vegetarian and I avoid dairy.
+assistant: Got it — vegetarian, no dairy. Any specific goals (weight loss, muscle gain)?
+user: I want to lose some fat and have more energy during the day.
+assistant: Great — I recommend a moderate calorie deficit with higher protein...
+user: Also, I prefer quick recipes I can make in 30 minutes.
+
+Truncate by last 2 turns:
+assistant: Got it — vegetarian, no dairy. Any specific goals (weight loss, muscle gain)?
+user: I want to lose some fat and have more energy during the day.
+assistant: Great — I recommend a moderate calorie deficit with higher protein...
+user: Also, I prefer quick recipes I can make in 30 minutes.
+
+Truncate to ~100 chars:
+user: Also, I prefer quick recipes I can make in 30 minutes.
+
+Demonstrating summarization after every 3 runs. Running summaries 6 times (some may be no-ops).
+
+Run 1: no summarization
+Run 2: no summarization
+--- Summarization triggered at run 4 ---
+- (user) Hi, I need help planning a healthy meal plan..
+- (assistant) Sure.
+- (user) I am 28, 70kg, vegetarian and I avoid dairy..
+- (assistant) Got it — vegetarian, no dairy.
+- (user) I want to lose some fat and have more energy during the day..
+- (assistant) Great — I recommend a moderate calorie deficit with higher protein....
+- (user) Also, I prefer quick recipes I can make in 30 minutes..
+- (user) Follow-up question #1: small clarification..
+- (user) Follow-up question #2: small clarification..
+- (user) Follow-up question #3: small clarification..
+
+Current stored messages after summarization:
+system: Conversation summary:
+- (user) Hi, I need help planning a healthy meal plan..
+- (assistant) Sure.
+- (user) I am 28, 70kg, vegetarian and I avoid dairy..
+- (assistant) Got it — vegetarian, no dairy.
+- (user) I want to lose some fat and have more energy during the day..
+- (assistant) Great — I recommend a moderate calorie deficit with higher protein....
+- (user) Also, I prefer quick recipes I can make in 30 minutes..
+- (user) Follow-up question #1: small clarification..
+- (user) Follow-up question #2: small clarification..
+- (user) Follow-up question #3: small clarification..
+user: Follow-up question #2: small clarification.
+user: Follow-up question #3: small clarification.
+Run 5: no summarization
+--- Summarization triggered at run 7 ---
+- (system) Conversation summary:
+- (user) Hi, I need help planning a healthy meal plan..
+- (user) Follow-up question #2: small clarification..
+- (user) Follow-up question #3: small clarification..
+- (user) Follow-up question #4: small clarification..
+- (user) Follow-up question #5: small clarification..
+
+Current stored messages after summarization:
+system: Conversation summary:
+- (system) Conversation summary:
+- (user) Hi, I need help planning a healthy meal plan..
+- (user) Follow-up question #2: small clarification..
+- (user) Follow-up question #3: small clarification..
+- (user) Follow-up question #4: small clarification..
+- (user) Follow-up question #5: small clarification..
+user: Follow-up question #4: small clarification.
+user: Follow-up question #5: small clarification.
+Run 8: no summarization
+
+--- Task 2 Demo: JSON Schema Classification & Extraction ---
+
+Sample chat #1: Hey, I'm Priya Sharma, 27 years old from Bengaluru. You can reach me at priya.sharma@example.com or +91 98765 43210.
+Raw extracted: {
+  "name": "Priya Sharma",
+  "email": "priya.sharma@example.com",
+  "phone": "98765 4321",
+  "location": "Bengaluru",
+  "age": 27
+}
+Validation result: {
+  "valid": true,
+  "errors": [],
+  "cleaned": {
+    "name": "Priya Sharma",
+    "email": "priya.sharma@example.com",
+    "phone": "98765 4321",
+    "location": "Bengaluru",
+    "age": 27
+  }
+}
+
+Sample chat #2: Hello, my name is John Doe. Email: john.doe@acme.co. I'm 34 and live in Austin.
+Raw extracted: {
+  "name": "John Doe",
+  "email": "john.doe@acme.co",
+  "location": "Austin",
+  "age": 34
+}
+Validation result: {
+  "valid": true,
+  "errors": [],
+  "cleaned": {
+    "name": "John Doe",
+    "email": "john.doe@acme.co",
+    "location": "Austin",
+    "age": 34
+  }
+}
+
+Sample chat #3: Hi, it's Maria. Call me at (555) 123-4567. I live in New York.
+Raw extracted: {
+  "phone": "(555) 123-4567",
+  "location": "New York"
+}
+Validation result: {
+  "valid": true,
+  "errors": [],
+  "cleaned": {
+    "phone": "(555) 123-4567",
+    "location": "New York"
+  }
+}
+
+--- End of demo script.
+Notes:
+- To run model-powered summarization/extraction, set GROQ_API_KEY environment variable or replace placeholder in the script.
+- This file is ready to be uploaded to Google Colab as a single cell (or split into cells for readability).
+- Commit this file to your GitHub repo for submission. Include a README describing usage and where to set API keys.
